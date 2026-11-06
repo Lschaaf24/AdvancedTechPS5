@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8859408847591190119}
   m_Layer: 0
   m_Name: TempSlice
-  m_TagString: Untagged
+  m_TagString: Slice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
