@@ -3,18 +3,21 @@ using UnityEngine.InputSystem.PS5;
 
 public class TouchPadInput : MonoBehaviour
 {
+    [SerializeField] private float speed = 300f;
+
+    private Camera cam;
     DualSenseGamepad pad;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        pad = DualSenseGamepad.GetBySlotIndex(0);
-
+        cam = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
+        pad = DualSenseGamepad.GetBySlotIndex(0);
         if (pad == null) return;
 
         //Get the positions of the touches - there are always 2 touches reported
@@ -33,6 +36,11 @@ public class TouchPadInput : MonoBehaviour
         Vector2 position = touch0.position.ReadValue();
         Vector2 delta = touch0.delta;
 
-        transform.position = new Vector3(position.x * 10f, position.y * 10f, 0);
+        Vector3 currentScreenPos = cam.WorldToScreenPoint(transform.position);
+        Vector3 targetScreenPos = new Vector3(currentScreenPos.x + delta.x * speed, currentScreenPos.y + delta.y * -speed, currentScreenPos.z);
+
+        transform.position = cam.ScreenToWorldPoint(targetScreenPos);
+        //transform.position = new Vector3(position.x * speed, position.y * -speed, 0);
+
     }
 }
