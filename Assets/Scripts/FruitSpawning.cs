@@ -10,7 +10,7 @@ public class FruitSpawning : MonoBehaviour
     [SerializeField] private List<GameObject> fruitObjectPrefabs;
     private List<GameObject> currentFruit = new List<GameObject>();
     
-    [SerializeField] private Transform fruitOrigin;
+    [SerializeField] private Transform[] fruitOrigins;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,12 +21,7 @@ public class FruitSpawning : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(currentFruit.Count < 2)
-        {
-            StartCoroutine(Spawning());
-
-        }
-
+        StartCoroutine(Spawning());
     }
 
     private IEnumerator Spawning()
@@ -34,7 +29,7 @@ public class FruitSpawning : MonoBehaviour
         if(currentFruit.Count < 1)
         {
             SpawnFruit(GetRandomFruit());
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(0.5f);
         }
 
 
@@ -51,10 +46,10 @@ public class FruitSpawning : MonoBehaviour
 
     private void SpawnFruit(GameObject fruitObject)
     {
-        GameObject newFruitObject = Instantiate(fruitObject, fruitOrigin);
+        GameObject newFruitObject = Instantiate(fruitObject, fruitOrigins[Random.Range(0, fruitOrigins.Length)]);
         currentFruit.Add(newFruitObject);
         Rigidbody fruitRb = newFruitObject.GetComponent<Rigidbody>();
-        fruitRb.AddForce(new Vector3(Random.Range(-2, 2), 4, 0), ForceMode.Impulse);
+        fruitRb.AddForce(new Vector3(Random.Range(-2, 2), 5.0f, 0), ForceMode.Impulse);
     }
     
     public void DestroyFruit(GameObject fruitObject)

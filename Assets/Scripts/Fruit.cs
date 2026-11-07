@@ -8,7 +8,12 @@ public class Fruit : MonoBehaviour
         if (other.gameObject.CompareTag("Slice"))
         {
             FruitSpawning.instance.DestroyFruit(gameObject);
-
+            GameManager.instance.AddScore(1);
         }
+        if (other.gameObject.CompareTag("DeathBox"))
+        {
+            FruitSpawning.instance.DestroyFruit(gameObject);
+        }
+        
     }
 }
